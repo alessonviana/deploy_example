@@ -1,21 +1,11 @@
-# Use uma imagem mais leve e compatível com múltiplas arquiteturas
-FROM python:3.9-alpine
+# Usar uma imagem base do Nginx
+FROM nginx:alpine
 
-# Definir diretório de trabalho
-WORKDIR /app
+# Remover a configuração padrão do Nginx
+RUN rm /usr/share/nginx/html/*
 
-# Copiar o arquivo de requisitos
-COPY requirements.txt .
+# Copiar o arquivo index.html para o diretório padrão do Nginx
+COPY index.html /usr/share/nginx/html/
 
-# Instalar dependências com pip
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Expor a porta 5000
-EXPOSE 5000
-
-# Variáveis de ambiente
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-
-# Comando padrão
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Expor a porta 80
+EXPOSE 80
