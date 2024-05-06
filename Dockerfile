@@ -1,11 +1,8 @@
-# Usar uma imagem base do Nginx
-FROM nginx:alpine
+# Use a imagem do Nginx como base
+FROM nginx:latest
 
-# Remover a configuração padrão do Nginx
-RUN rm /usr/share/nginx/html/*
+# Copie os arquivos do projeto para a pasta padrão do Nginx
+COPY . /usr/share/nginx/html
 
-# Copiar o arquivo index.html para o diretório padrão do Nginx
-COPY index.html /usr/share/nginx/html/
-
-# Expor a porta 80
+# Expõe a porta padrão do Nginx para acesso externo
 EXPOSE 80
