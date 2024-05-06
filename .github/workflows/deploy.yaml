@@ -36,5 +36,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/ubuntu/site
-            docker compose up --pull=always -d site
+            cd /home/ubuntu/site_example
+            docker compose up --pull=always -d web
