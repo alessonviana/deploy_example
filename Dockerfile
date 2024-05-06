@@ -1,17 +1,15 @@
-# Use uma imagem base do Python
+# Use a versão correta do Python compatível com a arquitetura
 FROM python:3.9-slim
 
-# Crie um diretório de trabalho
+# Defina o diretório de trabalho
 WORKDIR /app
 
-# Copie o arquivo requirements.txt para a imagem
+# Copie e instale as dependências
 COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Instale as dependências Python
-RUN pip install -r requirements.txt
-
-# Copie todo o conteúdo do diretório local para a imagem Docker
+# Copie o restante dos arquivos
 COPY . .
 
-# Comando padrão para rodar a aplicação Flask
+# Comando para iniciar a aplicação
 CMD ["python", "app.py"]
