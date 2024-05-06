@@ -1,0 +1,40 @@
+name: Build and publish a docker image
+
+on: 
+  push: 
+    branches: [docker-compose]
+
+jobs:
+  build-container:
+    name: Build and push the image to registry
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Docker login
+        uses: docker/login-action@v2.1.0
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSOWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: .
+          platforms: linux/arm
+          push: true
+          tags: | 
+            alesson23/site_example:latest
+            alesson23/site:${{ github.sha }}
+
+      - name: Build and Start Docker-compose
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/site
+            docker compose up --pull=always -d site
