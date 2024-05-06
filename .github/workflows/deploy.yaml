@@ -18,13 +18,23 @@ jobs:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSOWORD }}
 
+      # - name: Build and push Docker image
+      #   uses: docker/build-push-action@v3.2.0
+      #   with:
+      #     context: .
+      #     platforms: linux/arm
+      #     push: true
+      #     tags: | 
+      #       alesson23/site_example:latest
+      #       alesson23/site:${{ github.sha }}
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v3.2.0
         with:
           context: .
-          platforms: linux/arm
+          platforms: linux/arm64
           push: true
-          tags: | 
+          tags: |
             alesson23/site_example:latest
             alesson23/site:${{ github.sha }}
 
